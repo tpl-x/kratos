@@ -16,7 +16,7 @@ jobs:
       - name: Mirror Github to Gitee
         uses: Yikun/hub-mirror-action@master
         with:
-          src: github/czyt
+          src: github/tpl-x
           dst: gitee/czyt
           dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
           dst_token: ${{ secrets.GITEE_TOKEN }}
