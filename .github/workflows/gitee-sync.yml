@@ -24,4 +24,4 @@ jobs:
           timeout: 600
           debug: true
           force_update: true
-          static_list: "kratos-tpl"
+          static_list: "kratos"
