@@ -1,0 +1,17 @@
+# For details on buf.yaml configuration, visit https://buf.build/docs/configuration/v2/buf-yaml
+version: v2
+modules:
+  # Each module entry defines a path, which must be relative to the directory where the
+  # buf.yaml is located. You can also specify files or directories to exclude from a module.
+  # Directories across modules cannot overlap. For example, "a" and "a/b" cannot be two paths
+  # to modules in a given workspace.
+  - path: proto
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/bufbuild/protovalidate
+lint:
+  use:
+    - DEFAULT
+breaking:
+  use:
+    - FILE

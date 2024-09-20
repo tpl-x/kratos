@@ -1,0 +1,40 @@
+version: v2
+managed:
+  enabled: false
+
+
+plugins:
+  # Use protoc-gen-go latest
+  - remote: buf.build/protocolbuffers/go
+    out: api
+    opt: paths=source_relative
+  # Use the latest version of protoc-gen-go-grpc
+  - remote: buf.build/grpc/go
+    out: api
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+
+  # Use the latest version of protoc-gen-validate
+  - remote:  buf.build/bufbuild/validate-go
+    out: api
+    opt:
+      - paths=source_relative
+
+
+  # Use remote plugins with buf cli to generate code locally.
+  - remote: buf.build/community/google-gnostic-openapi
+    out: docs
+    opt:
+      - paths=source_relative
+
+ # this plugin will be installed via kratos upgrade
+  - local: protoc-gen-go-http
+    out: api
+    opt:
+      - paths=source_relative
+ # this plugin will be installed via kratos upgrade
+  - local: protoc-gen-go-errors
+    out: api
+    opt:
+      - paths=source_relative

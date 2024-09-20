@@ -1,0 +1,10 @@
+version: '3'
+
+tasks:
+  build:
+    deps: [proto]
+    cmds:
+      - goreleaser build --snapshot
+  proto:
+    cmds:
+      - buf generate

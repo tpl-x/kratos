@@ -1,0 +1,23 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+data:
+  database:
+    driver: mysql
+    source: root:root@tcp(127.0.0.1:3306)/test
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+log:
+    log_path: "./logs/server.log"
+    #Debug = 0;Info = 1;Warn = 2;Error = 3;Fatal = 4;
+    log_level: 1
+    log_rotate_size: 104857600
+    keep_log_days: 30
+    max_log_file: 10
+    compress: true
