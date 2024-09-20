@@ -1,11 +1,11 @@
 module github.com/tpl-x/kratos
 
-go 1.21
+go 1.22
 
 toolchain go1.23.1
 
 require (
-	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20230808051727-7888107c4b4f
+	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20240918015945-e1f5dc42b1e5
 	github.com/go-kratos/kratos/v2 v2.8.0
 	github.com/google/wire v0.6.0
 	go.uber.org/automaxprocs v1.5.3
