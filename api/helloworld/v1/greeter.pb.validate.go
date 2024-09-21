@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on HelloRequest with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *HelloRequest) Validate() error {
+// Validate checks the field values on SayHelloRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SayHelloRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on HelloRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in HelloRequestMultiError, or
-// nil if none found.
-func (m *HelloRequest) ValidateAll() error {
+// ValidateAll checks the field values on SayHelloRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SayHelloRequestMultiError, or nil if none found.
+func (m *SayHelloRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *HelloRequest) validate(all bool) error {
+func (m *SayHelloRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -60,18 +60,19 @@ func (m *HelloRequest) validate(all bool) error {
 	// no validation rules for Name
 
 	if len(errors) > 0 {
-		return HelloRequestMultiError(errors)
+		return SayHelloRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// HelloRequestMultiError is an error wrapping multiple validation errors
-// returned by HelloRequest.ValidateAll() if the designated constraints aren't met.
-type HelloRequestMultiError []error
+// SayHelloRequestMultiError is an error wrapping multiple validation errors
+// returned by SayHelloRequest.ValidateAll() if the designated constraints
+// aren't met.
+type SayHelloRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m HelloRequestMultiError) Error() string {
+func (m SayHelloRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -80,11 +81,11 @@ func (m HelloRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m HelloRequestMultiError) AllErrors() []error { return m }
+func (m SayHelloRequestMultiError) AllErrors() []error { return m }
 
-// HelloRequestValidationError is the validation error returned by
-// HelloRequest.Validate if the designated constraints aren't met.
-type HelloRequestValidationError struct {
+// SayHelloRequestValidationError is the validation error returned by
+// SayHelloRequest.Validate if the designated constraints aren't met.
+type SayHelloRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -92,22 +93,22 @@ type HelloRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e HelloRequestValidationError) Field() string { return e.field }
+func (e SayHelloRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e HelloRequestValidationError) Reason() string { return e.reason }
+func (e SayHelloRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e HelloRequestValidationError) Cause() error { return e.cause }
+func (e SayHelloRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e HelloRequestValidationError) Key() bool { return e.key }
+func (e SayHelloRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e HelloRequestValidationError) ErrorName() string { return "HelloRequestValidationError" }
+func (e SayHelloRequestValidationError) ErrorName() string { return "SayHelloRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e HelloRequestValidationError) Error() string {
+func (e SayHelloRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -119,14 +120,14 @@ func (e HelloRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sHelloRequest.%s: %s%s",
+		"invalid %sSayHelloRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = HelloRequestValidationError{}
+var _ error = SayHelloRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -134,24 +135,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = HelloRequestValidationError{}
+} = SayHelloRequestValidationError{}
 
-// Validate checks the field values on HelloReply with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *HelloReply) Validate() error {
+// Validate checks the field values on SayHelloResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SayHelloResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on HelloReply with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in HelloReplyMultiError, or
-// nil if none found.
-func (m *HelloReply) ValidateAll() error {
+// ValidateAll checks the field values on SayHelloResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SayHelloResponseMultiError, or nil if none found.
+func (m *SayHelloResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *HelloReply) validate(all bool) error {
+func (m *SayHelloResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -161,18 +162,19 @@ func (m *HelloReply) validate(all bool) error {
 	// no validation rules for Message
 
 	if len(errors) > 0 {
-		return HelloReplyMultiError(errors)
+		return SayHelloResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// HelloReplyMultiError is an error wrapping multiple validation errors
-// returned by HelloReply.ValidateAll() if the designated constraints aren't met.
-type HelloReplyMultiError []error
+// SayHelloResponseMultiError is an error wrapping multiple validation errors
+// returned by SayHelloResponse.ValidateAll() if the designated constraints
+// aren't met.
+type SayHelloResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m HelloReplyMultiError) Error() string {
+func (m SayHelloResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -181,11 +183,11 @@ func (m HelloReplyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m HelloReplyMultiError) AllErrors() []error { return m }
+func (m SayHelloResponseMultiError) AllErrors() []error { return m }
 
-// HelloReplyValidationError is the validation error returned by
-// HelloReply.Validate if the designated constraints aren't met.
-type HelloReplyValidationError struct {
+// SayHelloResponseValidationError is the validation error returned by
+// SayHelloResponse.Validate if the designated constraints aren't met.
+type SayHelloResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -193,22 +195,22 @@ type HelloReplyValidationError struct {
 }
 
 // Field function returns field value.
-func (e HelloReplyValidationError) Field() string { return e.field }
+func (e SayHelloResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e HelloReplyValidationError) Reason() string { return e.reason }
+func (e SayHelloResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e HelloReplyValidationError) Cause() error { return e.cause }
+func (e SayHelloResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e HelloReplyValidationError) Key() bool { return e.key }
+func (e SayHelloResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e HelloReplyValidationError) ErrorName() string { return "HelloReplyValidationError" }
+func (e SayHelloResponseValidationError) ErrorName() string { return "SayHelloResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e HelloReplyValidationError) Error() string {
+func (e SayHelloResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -220,14 +222,14 @@ func (e HelloReplyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sHelloReply.%s: %s%s",
+		"invalid %sSayHelloResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = HelloReplyValidationError{}
+var _ error = SayHelloResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -235,4 +237,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = HelloReplyValidationError{}
+} = SayHelloResponseValidationError{}

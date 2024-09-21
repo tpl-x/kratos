@@ -6,8 +6,8 @@
 package main
 
 import (
+	"github.com/tpl-x/kratos/api/conf"
 	"github.com/tpl-x/kratos/internal/biz"
-	"github.com/tpl-x/kratos/internal/conf"
 	"github.com/tpl-x/kratos/internal/data"
 	"github.com/tpl-x/kratos/internal/server"
 	"github.com/tpl-x/kratos/internal/service"

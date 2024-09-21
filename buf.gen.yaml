@@ -1,7 +1,10 @@
 version: v2
 managed:
-  enabled: false
-
+  enabled: true
+  override:
+      - file_option: go_package
+        module: buf.build/bufbuild/protovalidate
+        value: github.com/bufbuild/protovalidate-go
 
 plugins:
   # Use protoc-gen-go latest

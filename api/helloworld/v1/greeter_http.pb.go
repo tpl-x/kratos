@@ -19,57 +19,57 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationGreeterSayHello = "/helloworld.v1.Greeter/SayHello"
+const OperationGreeterServiceSayHello = "/helloworld.v1.GreeterService/SayHello"
 
-type GreeterHTTPServer interface {
+type GreeterServiceHTTPServer interface {
 	// SayHello Sends a greeting
-	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+	SayHello(context.Context, *SayHelloRequest) (*SayHelloResponse, error)
 }
 
-func RegisterGreeterHTTPServer(s *http.Server, srv GreeterHTTPServer) {
+func RegisterGreeterServiceHTTPServer(s *http.Server, srv GreeterServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/helloworld/{name}", _Greeter_SayHello0_HTTP_Handler(srv))
+	r.GET("/helloworld/{name}", _GreeterService_SayHello0_HTTP_Handler(srv))
 }
 
-func _Greeter_SayHello0_HTTP_Handler(srv GreeterHTTPServer) func(ctx http.Context) error {
+func _GreeterService_SayHello0_HTTP_Handler(srv GreeterServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in HelloRequest
+		var in SayHelloRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationGreeterSayHello)
+		http.SetOperation(ctx, OperationGreeterServiceSayHello)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.SayHello(ctx, req.(*HelloRequest))
+			return srv.SayHello(ctx, req.(*SayHelloRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*HelloReply)
+		reply := out.(*SayHelloResponse)
 		return ctx.Result(200, reply)
 	}
 }
 
-type GreeterHTTPClient interface {
-	SayHello(ctx context.Context, req *HelloRequest, opts ...http.CallOption) (rsp *HelloReply, err error)
+type GreeterServiceHTTPClient interface {
+	SayHello(ctx context.Context, req *SayHelloRequest, opts ...http.CallOption) (rsp *SayHelloResponse, err error)
 }
 
-type GreeterHTTPClientImpl struct {
+type GreeterServiceHTTPClientImpl struct {
 	cc *http.Client
 }
 
-func NewGreeterHTTPClient(client *http.Client) GreeterHTTPClient {
-	return &GreeterHTTPClientImpl{client}
+func NewGreeterServiceHTTPClient(client *http.Client) GreeterServiceHTTPClient {
+	return &GreeterServiceHTTPClientImpl{client}
 }
 
-func (c *GreeterHTTPClientImpl) SayHello(ctx context.Context, in *HelloRequest, opts ...http.CallOption) (*HelloReply, error) {
-	var out HelloReply
+func (c *GreeterServiceHTTPClientImpl) SayHello(ctx context.Context, in *SayHelloRequest, opts ...http.CallOption) (*SayHelloResponse, error) {
+	var out SayHelloResponse
 	pattern := "/helloworld/{name}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationGreeterSayHello))
+	opts = append(opts, http.Operation(OperationGreeterServiceSayHello))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
