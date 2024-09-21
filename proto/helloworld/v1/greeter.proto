@@ -23,10 +23,10 @@ message SayHelloRequest {
   string name = 1 [
     (buf.validate.field).string.min_len = 2,
     (buf.validate.field).string.max_len = 48
-  ];
+  ]; // the name to greet
 }
 
 // The response message containing the greetings
 message SayHelloResponse {
-  string message = 1;
+  string message = 1; // the message from server
 }

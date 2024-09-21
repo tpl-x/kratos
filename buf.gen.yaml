@@ -25,13 +25,19 @@ plugins:
       - paths=source_relative
 
 
-  # Use remote plugins with buf cli to generate code locally.
+  # gen openapi for docs.
   - remote: buf.build/community/google-gnostic-openapi
     out: docs
     opt:
       - paths=source_relative
+  # gen html format for docs
+  - remote: buf.build/community/pseudomuto-doc
+    out: docs
+    opt:
+      - html,docs.html
+    #  - markdown,docs.md
 
- # this plugin will be installed via kratos upgrade
+  # this plugin will be installed via kratos upgrade.so use as local
   - local: protoc-gen-go-http
     out: api
     opt:
@@ -41,3 +47,21 @@ plugins:
     out: api
     opt:
       - paths=source_relative
+
+# ====================================================
+#       other purpose plugins.for more plugins,visit
+#        https://buf.build/plugins
+# ====================================================
+  # to generate optimized marshalling & unmarshalling code you can use the plugin,
+  # but conflict with default protoc-gen-go plugin
+
+#  - remote: buf.build/community/planetscale-vtprotobuf
+#    out: api
+#    opt:
+#      - paths=source_relative
+
+  # gRPC to JSON proxy generator following the gRPC HTTP spec.
+#  - remote: buf.build/grpc-ecosystem/gateway
+#    out: gen
+#    opt:
+#      - paths=source_relative
