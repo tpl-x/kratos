@@ -19,9 +19,12 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationGreeterServiceLuckySearch = "/helloworld.v1.GreeterService/LuckySearch"
 const OperationGreeterServiceSayHello = "/helloworld.v1.GreeterService/SayHello"
 
 type GreeterServiceHTTPServer interface {
+	// LuckySearch Simple Google search by Redirect with keywords
+	LuckySearch(context.Context, *LuckySearchRequest) (*LuckySearchResponse, error)
 	// SayHello Sends a greeting
 	SayHello(context.Context, *SayHelloRequest) (*SayHelloResponse, error)
 }
@@ -29,6 +32,7 @@ type GreeterServiceHTTPServer interface {
 func RegisterGreeterServiceHTTPServer(s *http.Server, srv GreeterServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/helloworld/{name}", _GreeterService_SayHello0_HTTP_Handler(srv))
+	r.GET("/search/{keyword}", _GreeterService_LuckySearch0_HTTP_Handler(srv))
 }
 
 func _GreeterService_SayHello0_HTTP_Handler(srv GreeterServiceHTTPServer) func(ctx http.Context) error {
@@ -53,7 +57,30 @@ func _GreeterService_SayHello0_HTTP_Handler(srv GreeterServiceHTTPServer) func(c
 	}
 }
 
+func _GreeterService_LuckySearch0_HTTP_Handler(srv GreeterServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in LuckySearchRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGreeterServiceLuckySearch)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.LuckySearch(ctx, req.(*LuckySearchRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*LuckySearchResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type GreeterServiceHTTPClient interface {
+	LuckySearch(ctx context.Context, req *LuckySearchRequest, opts ...http.CallOption) (rsp *LuckySearchResponse, err error)
 	SayHello(ctx context.Context, req *SayHelloRequest, opts ...http.CallOption) (rsp *SayHelloResponse, err error)
 }
 
@@ -63,6 +90,19 @@ type GreeterServiceHTTPClientImpl struct {
 
 func NewGreeterServiceHTTPClient(client *http.Client) GreeterServiceHTTPClient {
 	return &GreeterServiceHTTPClientImpl{client}
+}
+
+func (c *GreeterServiceHTTPClientImpl) LuckySearch(ctx context.Context, in *LuckySearchRequest, opts ...http.CallOption) (*LuckySearchResponse, error) {
+	var out LuckySearchResponse
+	pattern := "/search/{keyword}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationGreeterServiceLuckySearch))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 func (c *GreeterServiceHTTPClientImpl) SayHello(ctx context.Context, in *SayHelloRequest, opts ...http.CallOption) (*SayHelloResponse, error) {

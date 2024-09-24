@@ -32,6 +32,31 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /search/{keyword}:
+        get:
+            tags:
+                - GreeterService
+            description: Simple Google search by Redirect with keywords
+            operationId: GreeterService_LuckySearch
+            parameters:
+                - name: keyword
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LuckySearchResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
         GoogleProtobufAny:
@@ -42,6 +67,15 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        LuckySearchResponse:
+            type: object
+            properties:
+                redirectTo:
+                    type: string
+                statusCode:
+                    type: integer
+                    format: int32
+            description: The response message containing the target to redirect to and status code
         SayHelloResponse:
             type: object
             properties:

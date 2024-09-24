@@ -241,6 +241,14 @@
             <ul>
               
                 <li>
+                  <a href="#helloworld.v1.LuckySearchRequest"><span class="badge">M</span>LuckySearchRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#helloworld.v1.LuckySearchResponse"><span class="badge">M</span>LuckySearchResponse</a>
+                </li>
+              
+                <li>
                   <a href="#helloworld.v1.SayHelloRequest"><span class="badge">M</span>SayHelloRequest</a>
                 </li>
               
@@ -673,6 +681,61 @@
       <p></p>
 
       
+        <h3 id="helloworld.v1.LuckySearchRequest">LuckySearchRequest</h3>
+        <p>the request message containing the search keywords for search</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>keyword</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="helloworld.v1.LuckySearchResponse">LuckySearchResponse</h3>
+        <p>The response message containing the target to redirect to and status code</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>redirect_to</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status_code</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="helloworld.v1.SayHelloRequest">SayHelloRequest</h3>
         <p>The request message containing the user's name.</p>
 
@@ -742,6 +805,13 @@
                 <td><p>Sends a greeting</p></td>
               </tr>
             
+              <tr>
+                <td>LuckySearch</td>
+                <td><a href="#helloworld.v1.LuckySearchRequest">LuckySearchRequest</a></td>
+                <td><a href="#helloworld.v1.LuckySearchResponse">LuckySearchResponse</a></td>
+                <td><p>Simple Google search by Redirect with keywords</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -766,6 +836,16 @@
                 <td>SayHello</td>
                 <td>GET</td>
                 <td>/helloworld/{name}</td>
+                <td></td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>LuckySearch</td>
+                <td>GET</td>
+                <td>/search/{keyword}</td>
                 <td></td>
               </tr>
               

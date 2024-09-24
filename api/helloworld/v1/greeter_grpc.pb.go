@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GreeterService_SayHello_FullMethodName = "/helloworld.v1.GreeterService/SayHello"
+	GreeterService_SayHello_FullMethodName    = "/helloworld.v1.GreeterService/SayHello"
+	GreeterService_LuckySearch_FullMethodName = "/helloworld.v1.GreeterService/LuckySearch"
 )
 
 // GreeterServiceClient is the client API for GreeterService service.
@@ -30,6 +31,8 @@ const (
 type GreeterServiceClient interface {
 	// Sends a greeting
 	SayHello(ctx context.Context, in *SayHelloRequest, opts ...grpc.CallOption) (*SayHelloResponse, error)
+	// Simple Google search by Redirect with keywords
+	LuckySearch(ctx context.Context, in *LuckySearchRequest, opts ...grpc.CallOption) (*LuckySearchResponse, error)
 }
 
 type greeterServiceClient struct {
@@ -50,6 +53,16 @@ func (c *greeterServiceClient) SayHello(ctx context.Context, in *SayHelloRequest
 	return out, nil
 }
 
+func (c *greeterServiceClient) LuckySearch(ctx context.Context, in *LuckySearchRequest, opts ...grpc.CallOption) (*LuckySearchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LuckySearchResponse)
+	err := c.cc.Invoke(ctx, GreeterService_LuckySearch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServiceServer is the server API for GreeterService service.
 // All implementations should embed UnimplementedGreeterServiceServer
 // for forward compatibility.
@@ -58,6 +71,8 @@ func (c *greeterServiceClient) SayHello(ctx context.Context, in *SayHelloRequest
 type GreeterServiceServer interface {
 	// Sends a greeting
 	SayHello(context.Context, *SayHelloRequest) (*SayHelloResponse, error)
+	// Simple Google search by Redirect with keywords
+	LuckySearch(context.Context, *LuckySearchRequest) (*LuckySearchResponse, error)
 }
 
 // UnimplementedGreeterServiceServer should be embedded to have
@@ -69,6 +84,9 @@ type UnimplementedGreeterServiceServer struct{}
 
 func (UnimplementedGreeterServiceServer) SayHello(context.Context, *SayHelloRequest) (*SayHelloResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedGreeterServiceServer) LuckySearch(context.Context, *LuckySearchRequest) (*LuckySearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LuckySearch not implemented")
 }
 func (UnimplementedGreeterServiceServer) testEmbeddedByValue() {}
 
@@ -108,6 +126,24 @@ func _GreeterService_SayHello_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GreeterService_LuckySearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LuckySearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServiceServer).LuckySearch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GreeterService_LuckySearch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServiceServer).LuckySearch(ctx, req.(*LuckySearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GreeterService_ServiceDesc is the grpc.ServiceDesc for GreeterService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -118,6 +154,10 @@ var GreeterService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SayHello",
 			Handler:    _GreeterService_SayHello_Handler,
+		},
+		{
+			MethodName: "LuckySearch",
+			Handler:    _GreeterService_LuckySearch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
