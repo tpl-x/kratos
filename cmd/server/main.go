@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/bufbuild/protovalidate-go"
 	"github.com/go-kratos/kratos/v2"
 	"os"
 
@@ -66,6 +67,19 @@ func main() {
 	if err := c.Scan(&bc); err != nil {
 		panic(err)
 	}
+
+	// create config validator to apply validation rules before boot app
+	configValidator, err := protovalidate.New()
+	if err != nil {
+		panic(err)
+	}
+
+	// do the validation
+	err = configValidator.Validate(&bc)
+	if err != nil {
+		panic(err)
+	}
+
 	zapLog := zap.NewLoggerWithLumberjack(&bc)
 	logger := log.With(zapLog,
 		"ts", log.DefaultTimestamp,

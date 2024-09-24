@@ -1,9 +1,10 @@
 syntax = "proto3";
 package conf;
 
-option go_package = "github.com/tpl-x/kratos/api/conf;conf";
-
+import "buf/validate/validate.proto";
 import "google/protobuf/duration.proto";
+
+option go_package = "github.com/tpl-x/kratos/api/conf;conf";
 
 message Bootstrap {
   Server server = 1;
@@ -15,12 +16,32 @@ message Server {
   message HTTP {
     string network = 1;
     string addr = 2;
-    google.protobuf.Duration timeout = 3;
+    google.protobuf.Duration timeout = 3 [
+      // the field is required
+      (buf.validate.field).required = true,
+      // duration must be longer than 1 second but no longer than 10 min.
+      (buf.validate.field).duration = {
+        // Validates that duration is greater than 1 second
+        gt: {seconds: 1}
+        // Validates that duration is less than or equal to 10 min.
+        lte: {seconds: 600}
+      }
+    ];
   }
   message GRPC {
     string network = 1;
     string addr = 2;
-    google.protobuf.Duration timeout = 3;
+    google.protobuf.Duration timeout = 3 [
+      // the field is required
+      (buf.validate.field).required = true,
+      // duration must be longer than 1 second but no longer than 10 min.
+      (buf.validate.field).duration = {
+        // Validates that duration is greater than 1 second
+        gt: {seconds: 1}
+        // Validates that duration is less than or equal to 10 min.
+        lte: {seconds: 600}
+      }
+    ];
   }
   HTTP http = 1;
   GRPC grpc = 2;
@@ -51,7 +72,16 @@ enum LogLevel {
 
 message Log {
   string log_path = 1;
-  LogLevel log_level = 2;
+  LogLevel log_level = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    in: [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  }];
   int32 max_size = 3;
   int32 max_keep_days = 4;
   int32 max_keep_files = 5;
