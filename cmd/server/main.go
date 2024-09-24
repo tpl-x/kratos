@@ -68,14 +68,14 @@ func main() {
 		panic(err)
 	}
 
-	// create config validator to apply validation rules before boot app
-	configValidator, err := protovalidate.New()
+	// create  validator to apply validation rules before boot app
+	validator, err := protovalidate.New()
 	if err != nil {
 		panic(err)
 	}
 
-	// do the validation
-	err = configValidator.Validate(&bc)
+	// do the validation for config
+	err = validator.Validate(&bc)
 	if err != nil {
 		panic(err)
 	}
@@ -91,7 +91,7 @@ func main() {
 		"span.id", tracing.SpanID(),
 	)
 
-	app, cleanup, err := wireApp(bc.Server, bc.Data, logger)
+	app, cleanup, err := wireApp(bc.Server, bc.Data, logger, validator)
 	if err != nil {
 		panic(err)
 	}

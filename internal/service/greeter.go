@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/bufbuild/protovalidate-go"
 	"github.com/go-kratos/kratos/v2/log"
-
 	v1 "github.com/tpl-x/kratos/api/helloworld/v1"
 	"github.com/tpl-x/kratos/internal/biz"
 )
@@ -14,25 +13,23 @@ var _ v1.GreeterServiceServer = (*GreeterService)(nil)
 
 // GreeterService is a greeter service.
 type GreeterService struct {
-	log *log.Helper
-	uc  *biz.GreeterUseCase
+	log       *log.Helper
+	uc        *biz.GreeterUseCase
+	validator *protovalidate.Validator
 }
 
 // NewGreeterService new a greeter service.
-func NewGreeterService(uc *biz.GreeterUseCase, logger log.Logger) *GreeterService {
+func NewGreeterService(uc *biz.GreeterUseCase, logger log.Logger, validator *protovalidate.Validator) *GreeterService {
 	return &GreeterService{
-		uc:  uc,
-		log: log.NewHelper(logger),
+		uc:        uc,
+		validator: validator,
+		log:       log.NewHelper(logger),
 	}
 }
 
 // LuckySearch implements helloworld.LuckySearch
 func (s *GreeterService) LuckySearch(ctx context.Context, request *v1.LuckySearchRequest) (*v1.LuckySearchResponse, error) {
-	v, err := protovalidate.New()
-	if err != nil {
-		s.log.Error("failed to create validator instance", err)
-	}
-	if err = v.Validate(request); err != nil {
+	if err := s.validator.Validate(request); err != nil {
 		s.log.Error("request validate failed", err)
 		return nil, err
 	}
@@ -48,11 +45,7 @@ func (s *GreeterService) LuckySearch(ctx context.Context, request *v1.LuckySearc
 
 // SayHello implements helloworld.GreeterServer.
 func (s *GreeterService) SayHello(ctx context.Context, request *v1.SayHelloRequest) (*v1.SayHelloResponse, error) {
-	v, err := protovalidate.New()
-	if err != nil {
-		s.log.Error("failed to create validator instance", err)
-	}
-	if err = v.Validate(request); err != nil {
+	if err := s.validator.Validate(request); err != nil {
 		s.log.Error("request validate failed", err)
 		return nil, err
 	}

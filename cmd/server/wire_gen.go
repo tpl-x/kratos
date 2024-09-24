@@ -7,6 +7,7 @@
 package main
 
 import (
+	"github.com/bufbuild/protovalidate-go"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tpl-x/kratos/api/conf"
@@ -23,14 +24,14 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger, validator *protovalidate.Validator) (*kratos.App, func(), error) {
 	dataData, cleanup, err := data.NewData(confData, logger)
 	if err != nil {
 		return nil, nil, err
 	}
 	greeterRepo := data.NewGreeterRepo(dataData, logger)
 	greeterUseCase := biz.NewGreeterUseCase(greeterRepo, logger)
-	greeterService := service.NewGreeterService(greeterUseCase, logger)
+	greeterService := service.NewGreeterService(greeterUseCase, logger, validator)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, logger)
 	app := newApp(logger, grpcServer, httpServer)
