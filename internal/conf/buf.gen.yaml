@@ -1,0 +1,19 @@
+version: v2
+managed:
+  enabled: true
+  override:
+      - file_option: go_package
+        module: buf.build/bufbuild/protovalidate
+        value: github.com/bufbuild/protovalidate-go
+
+plugins:
+  # Use protoc-gen-go latest
+  - remote: buf.build/protocolbuffers/go
+    out: .
+    opt: paths=source_relative
+
+  # Use the latest version of protoc-gen-validate
+  - remote:  buf.build/bufbuild/validate-go
+    out: .
+    opt:
+      - paths=source_relative

@@ -8,11 +8,15 @@ package main
 
 import (
 	"github.com/bufbuild/protovalidate-go"
+	zap2 "github.com/go-kratos/kratos/contrib/log/zap/v2"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tpl-x/kratos/api/conf"
+	"github.com/go-kratos/kratos/v2/middleware/tracing"
+	"github.com/google/wire"
 	"github.com/tpl-x/kratos/internal/biz"
+	"github.com/tpl-x/kratos/internal/conf"
 	"github.com/tpl-x/kratos/internal/data"
+	"github.com/tpl-x/kratos/internal/pkg/zap"
 	"github.com/tpl-x/kratos/internal/server"
 	"github.com/tpl-x/kratos/internal/service"
 )
@@ -24,18 +28,41 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger, validator *protovalidate.Validator) (*kratos.App, func(), error) {
-	dataData, cleanup, err := data.NewData(confData, logger)
+func wireApp(bootstrap *conf.Bootstrap, validator *protovalidate.Validator) (*kratos.App, func(), error) {
+	log := bootstrap.Log
+	logger := zap.NewLoggerWithLumberjack(log)
+	logLogger := newZapLoggerWith(logger)
+	confServer := bootstrap.Server
+	confData := bootstrap.Data
+	dataData, cleanup, err := data.NewData(confData, logLogger)
 	if err != nil {
 		return nil, nil, err
 	}
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
-	greeterUseCase := biz.NewGreeterUseCase(greeterRepo, logger)
-	greeterService := service.NewGreeterService(greeterUseCase, logger, validator)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, logger)
-	app := newApp(logger, grpcServer, httpServer)
+	greeterRepo := data.NewGreeterRepo(dataData, logLogger)
+	greeterUseCase := biz.NewGreeterUseCase(greeterRepo, logLogger)
+	greeterService := service.NewGreeterService(greeterUseCase, logLogger, validator)
+	grpcServer := server.NewGRPCServer(confServer, greeterService, logLogger)
+	httpServer := server.NewHTTPServer(confServer, greeterService, logLogger)
+	app := newApp(logLogger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()
 	}, nil
 }
+
+// wire.go:
+
+func newZapLoggerWith(zapLogger *zap2.Logger) log.Logger {
+	return log.With(zapLogger,
+		"ts", log.DefaultTimestamp, "caller", log.DefaultCaller, "service.id", id,
+		"service.name", Name,
+		"service.version", Version,
+		"trace.id", tracing.TraceID(), "span.id", tracing.SpanID(),
+	)
+}
+
+var appSet = wire.NewSet(wire.FieldsOf(new(*conf.Bootstrap),
+	"Data",
+	"Log",
+	"Server",
+), zap.NewLoggerWithLumberjack, newZapLoggerWith,
+)

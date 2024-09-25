@@ -4,7 +4,7 @@ package conf;
 import "buf/validate/validate.proto";
 import "google/protobuf/duration.proto";
 
-option go_package = "github.com/tpl-x/kratos/api/conf;conf";
+option go_package = "github.com/tpl-x/kratos/internal/conf;conf";
 
 message Bootstrap {
   Server server = 1;

@@ -1,8 +1,8 @@
 package zap
 
 import (
-	zapmiddleware "github.com/go-kratos/kratos/contrib/log/zap/v2"
-	"github.com/tpl-x/kratos/api/conf"
+	zapv2 "github.com/go-kratos/kratos/contrib/log/zap/v2"
+	"github.com/tpl-x/kratos/internal/conf"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -10,14 +10,14 @@ import (
 )
 
 // NewLoggerWithLumberjack returns a HandlerFunc that adds a zap logger to the context.
-func NewLoggerWithLumberjack(bc *conf.Bootstrap) *zapmiddleware.Logger {
+func NewLoggerWithLumberjack(logConfig *conf.Log) *zapv2.Logger {
 	encoderCfg := zap.NewProductionEncoderConfig()
 	lumberjackLogger := &lumberjack.Logger{
-		Filename:   bc.Log.LogPath,
-		MaxSize:    int(bc.Log.MaxSize),
-		MaxBackups: int(bc.Log.MaxKeepFiles),
-		MaxAge:     int(bc.Log.MaxKeepDays),
-		Compress:   bc.Log.Compress,
+		Filename:   logConfig.LogPath,
+		MaxSize:    int(logConfig.MaxSize),
+		MaxBackups: int(logConfig.MaxKeepFiles),
+		MaxAge:     int(logConfig.MaxKeepDays),
+		Compress:   logConfig.Compress,
 	}
 	writeSyncer := zapcore.NewMultiWriteSyncer(
 		zapcore.AddSync(os.Stdout),
@@ -25,14 +25,14 @@ func NewLoggerWithLumberjack(bc *conf.Bootstrap) *zapmiddleware.Logger {
 	)
 	encoder := zapcore.NewConsoleEncoder(encoderCfg)
 	var logLevel zapcore.Level
-	logLevel = convertInnerLogLevelToZapLogLevel(bc.Log.LogLevel, logLevel)
+	logLevel = convertInnerLogLevelToZapLogLevel(logConfig.LogLevel, logLevel)
 	core := zapcore.NewCore(
 		encoder,
 		writeSyncer,
 		zap.NewAtomicLevelAt(logLevel),
 	)
 	zapCore := zap.New(core, zap.AddCaller())
-	zapLog := zapmiddleware.NewLogger(zapCore)
+	zapLog := zapv2.NewLogger(zapCore)
 	defer func() { _ = zapLog.Sync() }()
 	return zapLog
 }
