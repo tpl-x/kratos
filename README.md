@@ -50,7 +50,9 @@ to create your first Application
 > ```bash
 > buf dep update
 >```
+>  if you want to clean up unused dep. use `buf dep prune `
+> 
 > step 2 :generate api from protobuf
 > ```bash
 > buf generate
-   ```
+>   ```
