@@ -1,6 +1,10 @@
 # kratos-tpl
 my go kratos Project Template base on offical kratos layout
-
+> The BSR allows 10 unauthenticated code generation requests per hour, 
+ with a burst of up to 10 requests. If you send more than 10 unauthenticated 
+ requests per hour using remote plugins, you’ll receive a rate limit error.
+ https://buf.build/docs/bsr/rate-limits
+> 
 ## Features
  + use [go-task](https://github.com/go-task/task) rather than make
  + use [buf](https://github.com/bufbuild/buf) for proto build

@@ -42,6 +42,9 @@ plugins:
     out: api
     opt:
       - paths=source_relative
+      # supported other parameter
+      # - omitempty=false
+      # - omitempty_prefix=/v1
  # this plugin will be installed via kratos upgrade
   - local: protoc-gen-go-errors
     out: api
