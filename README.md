@@ -33,6 +33,11 @@ kratos
 ```bash
 go install github.com/go-kratos/kratos/cmd/kratos/v2@latest && kratos upgrade
 ```
+if you want to build all platform simply,you may need install [goreleaser](https://github.com/goreleaser/goreleaser),and build with
+```bash
+goreleaser build --snapshot --clean
+```
+also you can create a release in your github,the compile is auto completed
 ## usage
 run the command:
 ```
