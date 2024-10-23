@@ -30,6 +30,10 @@ plugins:
     out: docs
     opt:
       - paths=source_relative
+ # gen swagger format api docs
+#  - remote: buf.build/grpc-ecosystem/openapiv2
+#    out: docs
+
   # gen html format for docs
   - remote: buf.build/community/pseudomuto-doc
     out: docs
