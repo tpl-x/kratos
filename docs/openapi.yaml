@@ -22,8 +22,9 @@ paths:
         get:
             tags:
                 - GreeterService
+            summary: say hello api function
             description: demo interface to say hello to the requested user
-            operationId: say hello demo
+            operationId: say hello
             parameters:
                 - name: name
                   in: path
@@ -47,6 +48,7 @@ paths:
         get:
             tags:
                 - GreeterService
+            summary: lucky search api function
             description: demo interface to search  keyword with redirect
             operationId: lucky search
             parameters:

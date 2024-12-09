@@ -43,7 +43,8 @@ service GreeterService {
   rpc SayHello(SayHelloRequest) returns (SayHelloResponse) {
     option (google.api.http) = {get: "/helloworld/{name}"};
     option (gnostic.openapi.v3.operation) = {
-      operation_id: "say hello demo"
+      operation_id: "say hello"
+      summary:"say hello api function"
       description: "demo interface to say hello to the requested user"
     };
   }
@@ -53,6 +54,7 @@ service GreeterService {
     option (google.api.http) = {get: "/search/{keyword}"};
     option (gnostic.openapi.v3.operation) = {
       operation_id: "lucky search"
+      summary:"lucky search api function"
       description: "demo interface to search  keyword with redirect"
     };
   }

@@ -48,7 +48,9 @@ plugins:
     opt:
       - paths=source_relative
       # supported other parameter
-      # - omitempty=false
+      #  omit if google.api is empty,default:true
+      #- omitempty=false
+      # if google.api is empty,use this prefix,default:""
       # - omitempty_prefix=/v1
  # this plugin will be installed via kratos upgrade
   - local: protoc-gen-go-errors
