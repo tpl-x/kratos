@@ -1,12 +1,14 @@
 module github.com/tpl-x/kratos
 
 go 1.22
+
 toolchain go1.23.1
 
 require (
 	github.com/bufbuild/protovalidate-go v0.7.3
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20240918015945-e1f5dc42b1e5
 	github.com/go-kratos/kratos/v2 v2.8.2
+	github.com/google/gnostic v0.7.0
 	github.com/google/wire v0.6.0
 	go.uber.org/automaxprocs v1.6.0
 	go.uber.org/zap v1.27.0
@@ -27,6 +29,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/form/v4 v4.2.0 // indirect
 	github.com/google/cel-go v0.22.0 // indirect
+	github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect

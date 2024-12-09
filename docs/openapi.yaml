@@ -3,16 +3,27 @@
 
 openapi: 3.0.3
 info:
-    title: GreeterService API
-    description: The greeting service definition.
-    version: 0.0.1
+    title: Kratos Demo document
+    description: Kratos Demo document
+    contact:
+        name: czyt
+        url: https://czyt.tech
+        email: root@czyt.tech
+    version: 1.0.0
+servers:
+    - url: http://localhost:8000
+      description: Local dev server
+    - url: https://api.example.com
+      description: Production server
+    - url: https://staging-api.example.com
+      description: Staging server
 paths:
     /helloworld/{name}:
         get:
             tags:
                 - GreeterService
-            description: Sends a greeting
-            operationId: GreeterService_SayHello
+            description: demo interface to say hello to the requested user
+            operationId: say hello demo
             parameters:
                 - name: name
                   in: path
@@ -36,8 +47,8 @@ paths:
         get:
             tags:
                 - GreeterService
-            description: Simple Google search by Redirect with keywords
-            operationId: GreeterService_LuckySearch
+            description: demo interface to search  keyword with redirect
+            operationId: lucky search
             parameters:
                 - name: keyword
                   in: path
