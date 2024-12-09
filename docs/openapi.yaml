@@ -81,9 +81,9 @@ components:
         LuckySearchResponse:
             type: object
             properties:
-                redirectTo:
+                redirect_to:
                     type: string
-                statusCode:
+                status_code:
                     type: integer
                     format: int32
             description: The response message containing the target to redirect to and status code
