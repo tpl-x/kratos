@@ -23,7 +23,7 @@ func NewGreeterService(uc *biz.GreeterUseCase, logger log.Logger, validator *pro
 	return &GreeterService{
 		uc:        uc,
 		validator: validator,
-		log:       log.NewHelper(logger),
+		log:       log.NewHelper(log.With(logger, "module", "service/greeterService")),
 	}
 }
 
