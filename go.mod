@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.23.1
 
 require (
-	github.com/bufbuild/protovalidate-go v0.7.3
+	github.com/bufbuild/protovalidate-go v0.8.0
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20240918015945-e1f5dc42b1e5
 	github.com/go-kratos/kratos/v2 v2.8.2
 	github.com/google/gnostic v0.7.0
@@ -19,7 +19,7 @@ require (
 )
 
 require (
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.35.2-20240920164238-5a7b106cbb87.1 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.35.2-20241127180247-a33202765966.1 // indirect
 	cel.dev/expr v0.18.0 // indirect
 	dario.cat/mergo v1.0.0 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
@@ -28,7 +28,7 @@ require (
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/form/v4 v4.2.0 // indirect
-	github.com/google/cel-go v0.22.0 // indirect
+	github.com/google/cel-go v0.22.1 // indirect
 	github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
