@@ -7,7 +7,7 @@ toolchain go1.23.1
 require (
 	github.com/bufbuild/protovalidate-go v0.9.2
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20240918015945-e1f5dc42b1e5
-	github.com/go-kratos/kratos/v2 v2.8.3
+	github.com/go-kratos/kratos/v2 v2.8.4
 	github.com/google/gnostic v0.7.0
 	github.com/google/wire v0.6.0
 	go.uber.org/automaxprocs v1.6.0
