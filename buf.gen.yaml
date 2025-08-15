@@ -4,7 +4,7 @@ managed:
   override:
       - file_option: go_package
         module: buf.build/bufbuild/protovalidate
-        value: github.com/bufbuild/protovalidate-go
+        value: buf.build/go/protovalidate
 
 plugins:
   # Use protoc-gen-go latest

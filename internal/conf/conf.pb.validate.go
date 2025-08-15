@@ -157,7 +157,7 @@ type BootstrapMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m BootstrapMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -313,7 +313,7 @@ type ServerMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ServerMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -469,7 +469,7 @@ type DataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DataMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -579,7 +579,7 @@ type LogMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m LogMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -711,7 +711,7 @@ type Server_HTTPMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m Server_HTTPMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -843,7 +843,7 @@ type Server_GRPCMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m Server_GRPCMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -947,7 +947,7 @@ type Data_DatabaseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m Data_DatabaseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1108,7 +1108,7 @@ type Data_RedisMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m Data_RedisMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

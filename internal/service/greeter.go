@@ -1,9 +1,9 @@
 package service
 
 import (
+	"buf.build/go/protovalidate"
 	"context"
 	"fmt"
-	"github.com/bufbuild/protovalidate-go"
 	"github.com/go-kratos/kratos/v2/log"
 	v1 "github.com/tpl-x/kratos/api/helloworld/v1"
 	"github.com/tpl-x/kratos/internal/biz"
