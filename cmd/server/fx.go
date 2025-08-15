@@ -41,7 +41,7 @@ func provideValidator(bootstrap *conf.Bootstrap) (protovalidate.Validator, error
 	}
 
 	// Validate configuration
-	if err := validator.Validate(bootstrap); err != nil {
+	if err = validator.Validate(bootstrap); err != nil {
 		return nil, err
 	}
 
