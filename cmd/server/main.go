@@ -1,19 +1,17 @@
 package main
 
 import (
+	"context"
 	"flag"
-	"github.com/bufbuild/protovalidate-go"
-	"github.com/go-kratos/kratos/v2"
+	"github.com/tpl-x/kratos/internal/biz"
+	"github.com/tpl-x/kratos/internal/data"
+	"github.com/tpl-x/kratos/internal/pkg/zap"
+	"github.com/tpl-x/kratos/internal/server"
+	"github.com/tpl-x/kratos/internal/service"
+	"go.uber.org/fx"
 	"os"
 
-	"github.com/tpl-x/kratos/internal/conf"
-
-	"github.com/go-kratos/kratos/v2/config"
-	"github.com/go-kratos/kratos/v2/config/file"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/transport/grpc"
-	"github.com/go-kratos/kratos/v2/transport/http"
-
+	"github.com/go-kratos/kratos/v2"
 	_ "go.uber.org/automaxprocs"
 )
 
@@ -33,58 +31,48 @@ func init() {
 	flag.StringVar(&flagConf, "conf", "../../configs", "config path, eg: -conf config.yaml")
 }
 
-func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
-	return kratos.New(
-		kratos.ID(id),
-		kratos.Name(Name),
-		kratos.Version(Version),
-		kratos.Metadata(map[string]string{}),
-		kratos.Logger(logger),
-		kratos.Server(
-			gs,
-			hs,
-		),
-	)
-}
-
 func main() {
 	flag.Parse()
-	c := config.New(
-		config.WithSource(
-			file.NewSource(flagConf),
+
+	// Create fx application
+	app := fx.New(
+		// Provide basic dependencies
+		fx.Provide(
+			provideBootstrap,
+			provideValidator,
+			provideDataConfig,
+			provideLogConfig,
+			provideServerConfig,
 		),
+
+		// Provide logging related dependencies
+		fx.Provide(
+			zap.NewLoggerWithLumberjack,
+			provideLogger,
+		),
+
+		// Include ProviderSets from other modules
+		server.ProviderSet,
+		data.ProviderSet,
+		biz.ProviderSet,
+		service.ProviderSet,
+
+		// Provide Kratos application
+		fx.Provide(provideKratosApp),
+
+		// Set up lifecycle hooks
+		fx.Invoke(func(lc fx.Lifecycle, app *kratos.App) {
+			lc.Append(fx.Hook{
+				OnStart: func(context.Context) error {
+					return onStart(app)
+				},
+				OnStop: func(context.Context) error {
+					return onStop(app)
+				},
+			})
+		}),
 	)
-	defer c.Close()
 
-	if err := c.Load(); err != nil {
-		panic(err)
-	}
-
-	var bc conf.Bootstrap
-	if err := c.Scan(&bc); err != nil {
-		panic(err)
-	}
-
-	// create  validator to apply validation rules before boot app
-	validator, err := protovalidate.New()
-	if err != nil {
-		panic(err)
-	}
-
-	// do the validation for config
-	err = validator.Validate(&bc)
-	if err != nil {
-		panic(err)
-	}
-
-	app, cleanup, err := wireApp(&bc, validator)
-	if err != nil {
-		panic(err)
-	}
-	defer cleanup()
-
-	// start and wait for stop signal
-	if err := app.Run(); err != nil {
-		panic(err)
-	}
+	// Run the application
+	app.Run()
 }

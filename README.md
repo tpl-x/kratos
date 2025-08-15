@@ -25,10 +25,6 @@ go install github.com/bufbuild/buf/cmd/buf@latest
 ```
 for more info, please refer [buf document](https://buf.build/docs/installation)
 
-wire
-```bash
-go install github.com/google/wire/cmd/wire@latest
-```
 kratos
 ```bash
 go install github.com/go-kratos/kratos/cmd/kratos/v2@latest && kratos upgrade

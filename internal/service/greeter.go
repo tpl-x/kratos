@@ -15,11 +15,11 @@ var _ v1.GreeterServiceServer = (*GreeterService)(nil)
 type GreeterService struct {
 	log       *log.Helper
 	uc        *biz.GreeterUseCase
-	validator *protovalidate.Validator
+	validator protovalidate.Validator
 }
 
 // NewGreeterService new a greeter service.
-func NewGreeterService(uc *biz.GreeterUseCase, logger log.Logger, validator *protovalidate.Validator) *GreeterService {
+func NewGreeterService(uc *biz.GreeterUseCase, logger log.Logger, validator protovalidate.Validator) *GreeterService {
 	return &GreeterService{
 		uc:        uc,
 		validator: validator,
