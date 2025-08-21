@@ -11,10 +11,24 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/tpl-x/kratos/internal/conf"
+	"go.uber.org/fx"
 )
 
-// Provider functions for configuration
-func provideBootstrap() (*conf.Bootstrap, error) {
+type ConfigBundle struct {
+	fx.Out
+
+	Bootstrap *conf.Bootstrap
+	Data      *conf.Data
+	Log       *conf.Log
+	Server    *conf.Server
+	Validator protovalidate.Validator
+}
+
+func provideConfigs() (ConfigBundle, error) {
+	validator, err := protovalidate.New()
+	if err != nil {
+		return ConfigBundle{}, err
+	}
 	c := config.New(
 		config.WithSource(
 			file.NewSource(flagConf),
@@ -22,43 +36,25 @@ func provideBootstrap() (*conf.Bootstrap, error) {
 	)
 
 	if err := c.Load(); err != nil {
-		return nil, err
+		return ConfigBundle{}, err
 	}
 
 	var bc conf.Bootstrap
 	if err := c.Scan(&bc); err != nil {
-		return nil, err
+		return ConfigBundle{}, err
 	}
 
-	return &bc, nil
-}
-
-// Provider function for validator
-func provideValidator(bootstrap *conf.Bootstrap) (protovalidate.Validator, error) {
-	validator, err := protovalidate.New()
-	if err != nil {
-		return nil, err
+	if err := validator.Validate(&bc); err != nil {
+		return ConfigBundle{}, err
 	}
 
-	// Validate configuration
-	if err = validator.Validate(bootstrap); err != nil {
-		return nil, err
-	}
-
-	return validator, nil
-}
-
-// Provider functions for configuration sub-items
-func provideDataConfig(bootstrap *conf.Bootstrap) *conf.Data {
-	return bootstrap.Data
-}
-
-func provideLogConfig(bootstrap *conf.Bootstrap) *conf.Log {
-	return bootstrap.Log
-}
-
-func provideServerConfig(bootstrap *conf.Bootstrap) *conf.Server {
-	return bootstrap.Server
+	return ConfigBundle{
+		Bootstrap: &bc,
+		Data:      bc.Data,
+		Log:       bc.Log,
+		Server:    bc.Server,
+		Validator: validator,
+	}, nil
 }
 
 // Provider function for logger with service information

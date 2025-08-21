@@ -36,15 +36,10 @@ func main() {
 
 	// Create fx application
 	app := fx.New(
-		// Provide basic dependencies
+		// Provide configs
 		fx.Provide(
-			provideBootstrap,
-			provideValidator,
-			provideDataConfig,
-			provideLogConfig,
-			provideServerConfig,
+			provideConfigs,
 		),
-
 		// Provide logging related dependencies
 		fx.Provide(
 			zap.NewLoggerWithLumberjack,
