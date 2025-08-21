@@ -7,8 +7,11 @@ import (
 	"go.uber.org/fx"
 )
 
-// ProviderSet is data providers.
-var ProviderSet = fx.Options(fx.Provide(NewData, NewGreeterRepo))
+// Module is data module.
+var Module = fx.Options(fx.Provide(
+	NewData,
+	NewGreeterRepo,
+))
 
 // Data .
 type Data struct {

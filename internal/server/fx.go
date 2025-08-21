@@ -4,8 +4,8 @@ import (
 	"go.uber.org/fx"
 )
 
-// ProviderSet is server providers.
-var ProviderSet = fx.Options(fx.Provide(
+// Module is server module.
+var Module = fx.Options(fx.Provide(
 	NewGRPCServer,
 	NewHTTPServer,
 ))

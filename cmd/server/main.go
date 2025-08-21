@@ -1,17 +1,14 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"github.com/tpl-x/kratos/internal/biz"
 	"github.com/tpl-x/kratos/internal/data"
-	"github.com/tpl-x/kratos/internal/pkg/zap"
 	"github.com/tpl-x/kratos/internal/server"
 	"github.com/tpl-x/kratos/internal/service"
 	"go.uber.org/fx"
 	"os"
 
-	"github.com/go-kratos/kratos/v2"
 	_ "go.uber.org/automaxprocs"
 )
 
@@ -41,31 +38,15 @@ func main() {
 			provideConfigs,
 		),
 		// Provide logging related dependencies
-		fx.Provide(
-			zap.NewLoggerWithLumberjack,
-			provideLogger,
-		),
+		loggingModule,
 
-		// Include ProviderSets from other modules
-		server.ProviderSet,
-		data.ProviderSet,
-		biz.ProviderSet,
-		service.ProviderSet,
-
+		// Include other modules
+		server.Module,
+		data.Module,
+		biz.Module,
+		service.Module,
 		// Provide Kratos application
-		fx.Provide(provideKratosApp),
-
-		// Set up lifecycle hooks
-		fx.Invoke(func(lc fx.Lifecycle, app *kratos.App) {
-			lc.Append(fx.Hook{
-				OnStart: func(context.Context) error {
-					return onStart(app)
-				},
-				OnStop: func(context.Context) error {
-					return onStop(app)
-				},
-			})
-		}),
+		appModule,
 	)
 
 	// Run the application

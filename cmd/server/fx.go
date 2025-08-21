@@ -2,6 +2,7 @@ package main
 
 import (
 	"buf.build/go/protovalidate"
+	"context"
 	zapv2 "github.com/go-kratos/kratos/contrib/log/zap/v2"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
@@ -11,6 +12,7 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/tpl-x/kratos/internal/conf"
+	"github.com/tpl-x/kratos/internal/pkg/zap"
 	"go.uber.org/fx"
 )
 
@@ -70,8 +72,8 @@ func provideLogger(zapLogger *zapv2.Logger) log.Logger {
 	)
 }
 
-// Provider function for Kratos application
-func provideKratosApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
+// newKratosApp function for Kratos application
+func newKratosApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
 	return kratos.New(
 		kratos.ID(id),
 		kratos.Name(Name),
@@ -81,6 +83,22 @@ func provideKratosApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *krat
 		kratos.Server(gs, hs),
 	)
 }
+
+func setupLifecycle(lc fx.Lifecycle, app *kratos.App) {
+	lc.Append(fx.Hook{
+		OnStart: func(context.Context) error {
+			return onStart(app)
+		},
+		OnStop: func(context.Context) error {
+			return onStop(app)
+		},
+	})
+}
+
+var appModule = fx.Options(
+	fx.Provide(newKratosApp),
+	fx.Invoke(setupLifecycle),
+)
 
 // Application start hook
 func onStart(app *kratos.App) error {
@@ -96,3 +114,10 @@ func onStart(app *kratos.App) error {
 func onStop(app *kratos.App) error {
 	return app.Stop()
 }
+
+var loggingModule = fx.Options(
+	fx.Provide(
+		zap.NewLoggerWithLumberjack,
+		provideLogger,
+	),
+)
