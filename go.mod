@@ -5,7 +5,7 @@ go 1.24.6
 require (
 	buf.build/go/protovalidate v1.0.1
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20250731084034-f7f150c3f139
-	github.com/go-kratos/kratos/v2 v2.9.1
+	github.com/go-kratos/kratos/v2 v2.9.2
 	github.com/google/gnostic v0.7.1
 	go.uber.org/automaxprocs v1.6.0
 	go.uber.org/fx v1.24.0
