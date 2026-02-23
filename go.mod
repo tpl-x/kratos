@@ -3,7 +3,7 @@ module github.com/tpl-x/kratos
 go 1.24.6
 
 require (
-	buf.build/go/protovalidate v1.1.0
+	buf.build/go/protovalidate v1.1.3
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20250731084034-f7f150c3f139
 	github.com/go-kratos/kratos/v2 v2.9.2
 	github.com/google/gnostic v0.7.1
@@ -17,8 +17,8 @@ require (
 )
 
 require (
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20251209175733-2a1774d88802.1 // indirect
-	cel.dev/expr v0.24.0 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20260209202127-80ab13bee0bf.1 // indirect
+	cel.dev/expr v0.25.1 // indirect
 	dario.cat/mergo v1.0.2 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
@@ -26,11 +26,10 @@ require (
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/form/v4 v4.2.1 // indirect
-	github.com/google/cel-go v0.26.1 // indirect
+	github.com/google/cel-go v0.27.0 // indirect
 	github.com/google/gnostic-models v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
-	github.com/stoewer/go-strcase v1.3.1 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/otel v1.38.0 // indirect
 	go.opentelemetry.io/otel/metric v1.38.0 // indirect
