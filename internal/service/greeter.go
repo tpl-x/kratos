@@ -4,7 +4,11 @@ import (
 	"buf.build/go/protovalidate"
 	"context"
 	"fmt"
-	"github.com/go-kratos/kratos/v2/log"
+	"log/slog"
+	stdhttp "net/http"
+
+	"github.com/go-kratos/kratos/v3/transport"
+	khttp "github.com/go-kratos/kratos/v3/transport/http"
 	v1 "github.com/tpl-x/kratos/api/helloworld/v1"
 	"github.com/tpl-x/kratos/internal/biz"
 )
@@ -13,32 +17,36 @@ var _ v1.GreeterServiceServer = (*GreeterService)(nil)
 
 // GreeterService is a greeter service.
 type GreeterService struct {
-	log       *log.Helper
+	log       *slog.Logger
 	uc        *biz.GreeterUseCase
 	validator protovalidate.Validator
 }
 
 // NewGreeterService new a greeter service.
-func NewGreeterService(uc *biz.GreeterUseCase, logger log.Logger, validator protovalidate.Validator) *GreeterService {
+func NewGreeterService(uc *biz.GreeterUseCase, logger *slog.Logger, validator protovalidate.Validator) *GreeterService {
 	return &GreeterService{
 		uc:        uc,
 		validator: validator,
-		log:       log.NewHelper(log.With(logger, "module", "service/greeterService")),
+		log:       logger.With(slog.String("module", "service/greeterService")),
 	}
 }
 
 // LuckySearch implements helloworld.LuckySearch
 func (s *GreeterService) LuckySearch(ctx context.Context, request *v1.LuckySearchRequest) (*v1.LuckySearchResponse, error) {
 	if err := s.validator.Validate(request); err != nil {
-		s.log.Error("request validate failed", err)
+		s.log.ErrorContext(ctx, "request validate failed", slog.Any("error", err))
 		return nil, err
 	}
-	s.log.Info("validation succeeded")
+	s.log.InfoContext(ctx, "validation succeeded")
 
 	keyword := request.GetKeyword()
+	redirectTo := fmt.Sprintf("https://www.google.com/search?q=%s", keyword)
 	resp := &v1.LuckySearchResponse{
-		RedirectTo: fmt.Sprintf("https://www.google.com/search?q=%s", keyword),
-		StatusCode: 302,
+		RedirectTo: redirectTo,
+		StatusCode: int32(stdhttp.StatusFound),
+	}
+	if tr, ok := transport.FromServerContext(ctx); ok && tr.Kind() == transport.KindHTTP {
+		return nil, khttp.NewRedirect(redirectTo, stdhttp.StatusFound)
 	}
 	return resp, nil
 }
@@ -46,10 +54,10 @@ func (s *GreeterService) LuckySearch(ctx context.Context, request *v1.LuckySearc
 // SayHello implements helloworld.GreeterServer.
 func (s *GreeterService) SayHello(ctx context.Context, request *v1.SayHelloRequest) (*v1.SayHelloResponse, error) {
 	if err := s.validator.Validate(request); err != nil {
-		s.log.Error("request validate failed", err)
+		s.log.ErrorContext(ctx, "request validate failed", slog.Any("error", err))
 		return nil, err
 	}
-	s.log.Info("validation succeeded")
+	s.log.InfoContext(ctx, "validation succeeded")
 	g, err := s.uc.CreateGreeter(ctx, &biz.Greeter{Hello: request.Name})
 	if err != nil {
 		return nil, err

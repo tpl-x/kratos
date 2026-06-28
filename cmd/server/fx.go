@@ -3,16 +3,16 @@ package main
 import (
 	"buf.build/go/protovalidate"
 	"context"
-	zapv2 "github.com/go-kratos/kratos/contrib/log/zap/v2"
-	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/config"
-	"github.com/go-kratos/kratos/v2/config/file"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
-	"github.com/go-kratos/kratos/v2/transport/grpc"
-	"github.com/go-kratos/kratos/v2/transport/http"
+	"log/slog"
+
+	"github.com/go-kratos/kratos/v3"
+	"github.com/go-kratos/kratos/v3/config"
+	"github.com/go-kratos/kratos/v3/config/file"
+	"github.com/go-kratos/kratos/v3/log"
+	"github.com/go-kratos/kratos/v3/transport/grpc"
+	"github.com/go-kratos/kratos/v3/transport/http"
 	"github.com/tpl-x/kratos/internal/conf"
-	"github.com/tpl-x/kratos/internal/pkg/zap"
+	applogging "github.com/tpl-x/kratos/internal/pkg/logging"
 	"go.uber.org/fx"
 )
 
@@ -41,17 +41,30 @@ func provideConfigs() (ConfigBundle, error) {
 		return ConfigBundle{}, err
 	}
 
-	var bc conf.Bootstrap
-	if err := c.Scan(&bc); err != nil {
+	serverCfg, err := config.Get[conf.Server](c, "server")
+	if err != nil {
+		return ConfigBundle{}, err
+	}
+	dataCfg, err := config.Get[conf.Data](c, "data")
+	if err != nil {
+		return ConfigBundle{}, err
+	}
+	logCfg, err := config.Get[conf.Log](c, "log")
+	if err != nil {
 		return ConfigBundle{}, err
 	}
 
-	if err := validator.Validate(&bc); err != nil {
+	bc := &conf.Bootstrap{
+		Server: &serverCfg,
+		Data:   &dataCfg,
+		Log:    &logCfg,
+	}
+	if err := validator.Validate(bc); err != nil {
 		return ConfigBundle{}, err
 	}
 
 	return ConfigBundle{
-		Bootstrap: &bc,
+		Bootstrap: bc,
 		Data:      bc.Data,
 		Log:       bc.Log,
 		Server:    bc.Server,
@@ -60,20 +73,18 @@ func provideConfigs() (ConfigBundle, error) {
 }
 
 // Provider function for logger with service information
-func provideLogger(zapLogger *zapv2.Logger) log.Logger {
-	return log.With(zapLogger,
-		"ts", log.DefaultTimestamp,
-		"caller", log.DefaultCaller,
-		"service.id", id,
-		"service.name", Name,
-		"service.version", Version,
-		"trace.id", tracing.TraceID(),
-		"span.id", tracing.SpanID(),
+func provideLogger(logConfig *conf.Log) *slog.Logger {
+	logger := applogging.NewLoggerWithLumberjack(logConfig).With(
+		slog.String("service.id", id),
+		slog.String("service.name", Name),
+		slog.String("service.version", Version),
 	)
+	log.SetDefault(logger)
+	return logger
 }
 
 // newKratosApp function for Kratos application
-func newKratosApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
+func newKratosApp(logger *slog.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
 	return kratos.New(
 		kratos.ID(id),
 		kratos.Name(Name),
@@ -117,7 +128,6 @@ func onStop(app *kratos.App) error {
 
 var loggingModule = fx.Options(
 	fx.Provide(
-		zap.NewLoggerWithLumberjack,
 		provideLogger,
 	),
 )

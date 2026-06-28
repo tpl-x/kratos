@@ -2,11 +2,11 @@ package biz
 
 import (
 	"context"
+	"log/slog"
 
 	v1 "github.com/tpl-x/kratos/api/helloworld/v1"
 
-	"github.com/go-kratos/kratos/v2/errors"
-	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v3/errors"
 )
 
 var (
@@ -31,19 +31,19 @@ type GreeterRepo interface {
 // GreeterUseCase is a Greeter useCase.
 type GreeterUseCase struct {
 	repo GreeterRepo
-	log  *log.Helper
+	log  *slog.Logger
 }
 
 // NewGreeterUseCase new a Greeter useCase.
-func NewGreeterUseCase(repo GreeterRepo, logger log.Logger) *GreeterUseCase {
+func NewGreeterUseCase(repo GreeterRepo, logger *slog.Logger) *GreeterUseCase {
 	return &GreeterUseCase{
 		repo: repo,
-		log:  log.NewHelper(log.With(logger, "module", "biz/greeterUseCase")),
+		log:  logger.With(slog.String("module", "biz/greeterUseCase")),
 	}
 }
 
 // CreateGreeter creates a Greeter, and returns the new Greeter.
 func (uc *GreeterUseCase) CreateGreeter(ctx context.Context, g *Greeter) (*Greeter, error) {
-	uc.log.WithContext(ctx).Infof("CreateGreeter: %v", g.Hello)
+	uc.log.InfoContext(ctx, "CreateGreeter", slog.String("hello", g.Hello))
 	return uc.repo.Save(ctx, g)
 }
