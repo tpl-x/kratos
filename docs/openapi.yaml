@@ -70,8 +70,41 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /v1/shelves/{shelf}:
+        get:
+            tags:
+                - GreeterService
+            summary: get shelf api function
+            description: demo interface to get a shelf by its AIP resource name
+            operationId: get shelf
+            parameters:
+                - name: shelf
+                  in: path
+                  description: The shelf id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetShelfResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
+        GetShelfResponse:
+            type: object
+            properties:
+                shelf:
+                    $ref: '#/components/schemas/Shelf'
+            description: The response message containing the shelf.
         GoogleProtobufAny:
             type: object
             properties:
@@ -95,6 +128,14 @@ components:
                 message:
                     type: string
             description: The response message containing the greetings
+        Shelf:
+            type: object
+            properties:
+                name:
+                    type: string
+                display_name:
+                    type: string
+            description: Shelf demonstrates google.api.resource annotations for protoc-gen-go-aip.
         Status:
             type: object
             properties:

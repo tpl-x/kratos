@@ -24,6 +24,12 @@ plugins:
     opt:
       - paths=source_relative
 
+  # Generate Google AIP resource-name helpers from google.api.resource annotations.
+  - local: ["go", "tool", "protoc-gen-go-aip"]
+    out: api
+    opt:
+      - paths=source_relative
+
 
   # gen openapi for docs.
   - remote: buf.build/community/google-gnostic-openapi

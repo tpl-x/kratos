@@ -17,10 +17,13 @@ var _ = new(context.Context)
 
 const _ = http.SupportPackageIsVersion3
 
+const OperationGreeterServiceGetShelf = "/helloworld.v1.GreeterService/GetShelf"
 const OperationGreeterServiceLuckySearch = "/helloworld.v1.GreeterService/LuckySearch"
 const OperationGreeterServiceSayHello = "/helloworld.v1.GreeterService/SayHello"
 
 type GreeterServiceHTTPServer interface {
+	// GetShelf Gets a shelf by its AIP resource name.
+	GetShelf(context.Context, *GetShelfRequest) (*GetShelfResponse, error)
 	// LuckySearch Simple Google search by Redirect with keywords
 	LuckySearch(context.Context, *LuckySearchRequest) (*LuckySearchResponse, error)
 	// SayHello Sends a greeting
@@ -31,6 +34,7 @@ func RegisterGreeterServiceHTTPServer(s *http.Server, srv GreeterServiceHTTPServ
 	r := s.Route("/")
 	r.Handle("GET", "/helloworld/{name}", _GreeterService_SayHello0_HTTP_Handler(srv))
 	r.Handle("GET", "/search/{keyword}", _GreeterService_LuckySearch0_HTTP_Handler(srv))
+	r.Handle("GET", "/v1/{name:shelves/[^/]+}", _GreeterService_GetShelf0_HTTP_Handler(srv))
 }
 
 func _GreeterService_SayHello0_HTTP_Handler(srv GreeterServiceHTTPServer) func(ctx http.Context) error {
@@ -77,7 +81,31 @@ func _GreeterService_LuckySearch0_HTTP_Handler(srv GreeterServiceHTTPServer) fun
 	}
 }
 
+func _GreeterService_GetShelf0_HTTP_Handler(srv GreeterServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetShelfRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGreeterServiceGetShelf)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetShelf(ctx, req.(*GetShelfRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetShelfResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type GreeterServiceHTTPClient interface {
+	// GetShelf Gets a shelf by its AIP resource name.
+	GetShelf(ctx context.Context, req *GetShelfRequest, opts ...http.CallOption) (rsp *GetShelfResponse, err error)
 	// LuckySearch Simple Google search by Redirect with keywords
 	LuckySearch(ctx context.Context, req *LuckySearchRequest, opts ...http.CallOption) (rsp *LuckySearchResponse, err error)
 	// SayHello Sends a greeting
@@ -90,6 +118,23 @@ type GreeterServiceHTTPClientImpl struct {
 
 func NewGreeterServiceHTTPClient(client *http.Client) GreeterServiceHTTPClient {
 	return &GreeterServiceHTTPClientImpl{client}
+}
+
+// GetShelf Gets a shelf by its AIP resource name.
+func (c *GreeterServiceHTTPClientImpl) GetShelf(ctx context.Context, in *GetShelfRequest, opts ...http.CallOption) (*GetShelfResponse, error) {
+	var out GetShelfResponse
+	pattern := "/v1/{name=shelves/*}"
+	path := http.BuildPath(pattern, in, http.WithQueryParams())
+	opts = append([]http.CallOption{
+		http.Accept("application/protojson"),
+		http.Operation(OperationGreeterServiceGetShelf),
+		http.PathTemplate(pattern),
+	}, opts...)
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 // LuckySearch Simple Google search by Redirect with keywords

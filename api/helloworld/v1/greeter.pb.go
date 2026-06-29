@@ -24,6 +24,149 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Shelf demonstrates google.api.resource annotations for protoc-gen-go-aip.
+type Shelf struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`                                  // the AIP resource name, for example shelves/default
+	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // the shelf display name
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Shelf) Reset() {
+	*x = Shelf{}
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Shelf) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Shelf) ProtoMessage() {}
+
+func (x *Shelf) ProtoReflect() protoreflect.Message {
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Shelf.ProtoReflect.Descriptor instead.
+func (*Shelf) Descriptor() ([]byte, []int) {
+	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Shelf) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Shelf) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+// The request message containing the shelf resource name.
+type GetShelfRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"` // the AIP resource name, for example shelves/default
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetShelfRequest) Reset() {
+	*x = GetShelfRequest{}
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetShelfRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetShelfRequest) ProtoMessage() {}
+
+func (x *GetShelfRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetShelfRequest.ProtoReflect.Descriptor instead.
+func (*GetShelfRequest) Descriptor() ([]byte, []int) {
+	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetShelfRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+// The response message containing the shelf.
+type GetShelfResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Shelf         *Shelf                 `protobuf:"bytes,1,opt,name=shelf,proto3" json:"shelf,omitempty"` // the requested shelf
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetShelfResponse) Reset() {
+	*x = GetShelfResponse{}
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetShelfResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetShelfResponse) ProtoMessage() {}
+
+func (x *GetShelfResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetShelfResponse.ProtoReflect.Descriptor instead.
+func (*GetShelfResponse) Descriptor() ([]byte, []int) {
+	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetShelfResponse) GetShelf() *Shelf {
+	if x != nil {
+		return x.Shelf
+	}
+	return nil
+}
+
 // The request message containing the user's name.
 type SayHelloRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -34,7 +177,7 @@ type SayHelloRequest struct {
 
 func (x *SayHelloRequest) Reset() {
 	*x = SayHelloRequest{}
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[0]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +189,7 @@ func (x *SayHelloRequest) String() string {
 func (*SayHelloRequest) ProtoMessage() {}
 
 func (x *SayHelloRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[0]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +202,7 @@ func (x *SayHelloRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SayHelloRequest.ProtoReflect.Descriptor instead.
 func (*SayHelloRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{0}
+	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SayHelloRequest) GetName() string {
@@ -79,7 +222,7 @@ type SayHelloResponse struct {
 
 func (x *SayHelloResponse) Reset() {
 	*x = SayHelloResponse{}
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[1]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -91,7 +234,7 @@ func (x *SayHelloResponse) String() string {
 func (*SayHelloResponse) ProtoMessage() {}
 
 func (x *SayHelloResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[1]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +247,7 @@ func (x *SayHelloResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SayHelloResponse.ProtoReflect.Descriptor instead.
 func (*SayHelloResponse) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{1}
+	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *SayHelloResponse) GetMessage() string {
@@ -124,7 +267,7 @@ type LuckySearchRequest struct {
 
 func (x *LuckySearchRequest) Reset() {
 	*x = LuckySearchRequest{}
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[2]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -136,7 +279,7 @@ func (x *LuckySearchRequest) String() string {
 func (*LuckySearchRequest) ProtoMessage() {}
 
 func (x *LuckySearchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[2]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -149,7 +292,7 @@ func (x *LuckySearchRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LuckySearchRequest.ProtoReflect.Descriptor instead.
 func (*LuckySearchRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{2}
+	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *LuckySearchRequest) GetKeyword() string {
@@ -170,7 +313,7 @@ type LuckySearchResponse struct {
 
 func (x *LuckySearchResponse) Reset() {
 	*x = LuckySearchResponse{}
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[3]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -182,7 +325,7 @@ func (x *LuckySearchResponse) String() string {
 func (*LuckySearchResponse) ProtoMessage() {}
 
 func (x *LuckySearchResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_greeter_proto_msgTypes[3]
+	mi := &file_helloworld_v1_greeter_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -195,7 +338,7 @@ func (x *LuckySearchResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LuckySearchResponse.ProtoReflect.Descriptor instead.
 func (*LuckySearchResponse) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{3}
+	return file_helloworld_v1_greeter_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LuckySearchResponse) GetRedirectTo() string {
@@ -216,7 +359,16 @@ var File_helloworld_v1_greeter_proto protoreflect.FileDescriptor
 
 const file_helloworld_v1_greeter_proto_rawDesc = "" +
 	"\n" +
-	"\x1bhelloworld/v1/greeter.proto\x12\rhelloworld.v1\x1a\x1bbuf/validate/validate.proto\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\"0\n" +
+	"\x1bhelloworld/v1/greeter.proto\x12\rhelloworld.v1\x1a\x1bbuf/validate/validate.proto\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x19google/api/resource.proto\"\x9a\x01\n" +
+	"\x05Shelf\x12\x1e\n" +
+	"\x04name\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x80\x01R\x04name\x12*\n" +
+	"\fdisplay_name\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18@R\vdisplayName:E\xeaAB\n" +
+	"\x1fhelloworld.googleapis.com/Shelf\x12\x0fshelves/{shelf}*\ashelves2\x05shelf\"B\n" +
+	"\x0fGetShelfRequest\x12/\n" +
+	"\x04name\x18\x01 \x01(\tB\x1b\xbaH\x18r\x16\x10\x01\x18\x80\x012\x0f^shelves/[^/]+$R\x04name\">\n" +
+	"\x10GetShelfResponse\x12*\n" +
+	"\x05shelf\x18\x01 \x01(\v2\x14.helloworld.v1.ShelfR\x05shelf\"0\n" +
 	"\x0fSayHelloRequest\x12\x1d\n" +
 	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x02\x180R\x04name\",\n" +
 	"\x10SayHelloResponse\x12\x18\n" +
@@ -228,10 +380,11 @@ const file_helloworld_v1_greeter_proto_rawDesc = "" +
 	"redirectTo\x12+\n" +
 	"\vstatus_code\x18\x02 \x01(\x05B\n" +
 	"\xbaH\a\x1a\x05\x18\xd7\x04(dR\n" +
-	"statusCode2\xa2\x03\n" +
+	"statusCode2\xec\x04\n" +
 	"\x0eGreeterService\x12\xc0\x01\n" +
 	"\bSayHello\x12\x1e.helloworld.v1.SayHelloRequest\x1a\x1f.helloworld.v1.SayHelloResponse\"s\xbaGV\x12\x16say hello api function\x1a1demo interface to say hello to the requested user*\tsay hello\x82\xd3\xe4\x93\x02\x14\x12\x12/helloworld/{name}\x12\xcc\x01\n" +
-	"\vLuckySearch\x12!.helloworld.v1.LuckySearchRequest\x1a\".helloworld.v1.LuckySearchResponse\"v\xbaGZ\x12\x19lucky search api function\x1a/demo interface to search  keyword with redirect*\flucky search\x82\xd3\xe4\x93\x02\x13\x12\x11/search/{keyword}B\x94\x03\xbaG\xec\x01\x12^\n" +
+	"\vLuckySearch\x12!.helloworld.v1.LuckySearchRequest\x1a\".helloworld.v1.LuckySearchResponse\"v\xbaGZ\x12\x19lucky search api function\x1a/demo interface to search  keyword with redirect*\flucky search\x82\xd3\xe4\x93\x02\x13\x12\x11/search/{keyword}\x12\xc7\x01\n" +
+	"\bGetShelf\x12\x1e.helloworld.v1.GetShelfRequest\x1a\x1f.helloworld.v1.GetShelfResponse\"z\xbaG[\x12\x16get shelf api function\x1a6demo interface to get a shelf by its AIP resource name*\tget shelf\x82\xd3\xe4\x93\x02\x16\x12\x14/v1/{name=shelves/*}B\x94\x03\xbaG\xec\x01\x12^\n" +
 	"\x14Kratos Demo document\x12\x14Kratos Demo document\")\n" +
 	"\x04czyt\x12\x11https://czyt.tech\x1a\x0eroot@czyt.tech2\x051.0.0\x1a)\n" +
 	"\x15http://localhost:8000\x12\x10Local dev server\x1a,\n" +
@@ -251,23 +404,29 @@ func file_helloworld_v1_greeter_proto_rawDescGZIP() []byte {
 	return file_helloworld_v1_greeter_proto_rawDescData
 }
 
-var file_helloworld_v1_greeter_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_helloworld_v1_greeter_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_helloworld_v1_greeter_proto_goTypes = []any{
-	(*SayHelloRequest)(nil),     // 0: helloworld.v1.SayHelloRequest
-	(*SayHelloResponse)(nil),    // 1: helloworld.v1.SayHelloResponse
-	(*LuckySearchRequest)(nil),  // 2: helloworld.v1.LuckySearchRequest
-	(*LuckySearchResponse)(nil), // 3: helloworld.v1.LuckySearchResponse
+	(*Shelf)(nil),               // 0: helloworld.v1.Shelf
+	(*GetShelfRequest)(nil),     // 1: helloworld.v1.GetShelfRequest
+	(*GetShelfResponse)(nil),    // 2: helloworld.v1.GetShelfResponse
+	(*SayHelloRequest)(nil),     // 3: helloworld.v1.SayHelloRequest
+	(*SayHelloResponse)(nil),    // 4: helloworld.v1.SayHelloResponse
+	(*LuckySearchRequest)(nil),  // 5: helloworld.v1.LuckySearchRequest
+	(*LuckySearchResponse)(nil), // 6: helloworld.v1.LuckySearchResponse
 }
 var file_helloworld_v1_greeter_proto_depIdxs = []int32{
-	0, // 0: helloworld.v1.GreeterService.SayHello:input_type -> helloworld.v1.SayHelloRequest
-	2, // 1: helloworld.v1.GreeterService.LuckySearch:input_type -> helloworld.v1.LuckySearchRequest
-	1, // 2: helloworld.v1.GreeterService.SayHello:output_type -> helloworld.v1.SayHelloResponse
-	3, // 3: helloworld.v1.GreeterService.LuckySearch:output_type -> helloworld.v1.LuckySearchResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: helloworld.v1.GetShelfResponse.shelf:type_name -> helloworld.v1.Shelf
+	3, // 1: helloworld.v1.GreeterService.SayHello:input_type -> helloworld.v1.SayHelloRequest
+	5, // 2: helloworld.v1.GreeterService.LuckySearch:input_type -> helloworld.v1.LuckySearchRequest
+	1, // 3: helloworld.v1.GreeterService.GetShelf:input_type -> helloworld.v1.GetShelfRequest
+	4, // 4: helloworld.v1.GreeterService.SayHello:output_type -> helloworld.v1.SayHelloResponse
+	6, // 5: helloworld.v1.GreeterService.LuckySearch:output_type -> helloworld.v1.LuckySearchResponse
+	2, // 6: helloworld.v1.GreeterService.GetShelf:output_type -> helloworld.v1.GetShelfResponse
+	4, // [4:7] is the sub-list for method output_type
+	1, // [1:4] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_helloworld_v1_greeter_proto_init() }
@@ -281,7 +440,7 @@ func file_helloworld_v1_greeter_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_greeter_proto_rawDesc), len(file_helloworld_v1_greeter_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

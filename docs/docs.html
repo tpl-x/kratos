@@ -194,6 +194,14 @@
             <ul>
               
                 <li>
+                  <a href="#helloworld.v1.GetShelfRequest"><span class="badge">M</span>GetShelfRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#helloworld.v1.GetShelfResponse"><span class="badge">M</span>GetShelfResponse</a>
+                </li>
+              
+                <li>
                   <a href="#helloworld.v1.LuckySearchRequest"><span class="badge">M</span>LuckySearchRequest</a>
                 </li>
               
@@ -207,6 +215,10 @@
               
                 <li>
                   <a href="#helloworld.v1.SayHelloResponse"><span class="badge">M</span>SayHelloResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#helloworld.v1.Shelf"><span class="badge">M</span>Shelf</a>
                 </li>
               
               
@@ -267,6 +279,54 @@
       </div>
       <p></p>
 
+      
+        <h3 id="helloworld.v1.GetShelfRequest">GetShelfRequest</h3>
+        <p>The request message containing the shelf resource name.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>the AIP resource name, for example shelves/default </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="helloworld.v1.GetShelfResponse">GetShelfResponse</h3>
+        <p>The response message containing the shelf.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>shelf</td>
+                  <td><a href="#helloworld.v1.Shelf">Shelf</a></td>
+                  <td></td>
+                  <td><p>the requested shelf </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
       
         <h3 id="helloworld.v1.LuckySearchRequest">LuckySearchRequest</h3>
         <p>the request message containing the search keywords for search</p>
@@ -371,6 +431,37 @@
 
         
       
+        <h3 id="helloworld.v1.Shelf">Shelf</h3>
+        <p>Shelf demonstrates google.api.resource annotations for protoc-gen-go-aip.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>the AIP resource name, for example shelves/default </p></td>
+                </tr>
+              
+                <tr>
+                  <td>display_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>the shelf display name </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -397,6 +488,13 @@
                 <td><a href="#helloworld.v1.LuckySearchRequest">LuckySearchRequest</a></td>
                 <td><a href="#helloworld.v1.LuckySearchResponse">LuckySearchResponse</a></td>
                 <td><p>Simple Google search by Redirect with keywords</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetShelf</td>
+                <td><a href="#helloworld.v1.GetShelfRequest">GetShelfRequest</a></td>
+                <td><a href="#helloworld.v1.GetShelfResponse">GetShelfResponse</a></td>
+                <td><p>Gets a shelf by its AIP resource name.</p></td>
               </tr>
             
           </tbody>
@@ -433,6 +531,16 @@
                 <td>LuckySearch</td>
                 <td>GET</td>
                 <td>/search/{keyword}</td>
+                <td></td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>GetShelf</td>
+                <td>GET</td>
+                <td>/v1/{name=shelves/*}</td>
                 <td></td>
               </tr>
               

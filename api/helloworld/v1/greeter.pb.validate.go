@@ -35,6 +35,339 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on Shelf with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Shelf) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Shelf with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in ShelfMultiError, or nil if none found.
+func (m *Shelf) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Shelf) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for DisplayName
+
+	if len(errors) > 0 {
+		return ShelfMultiError(errors)
+	}
+
+	return nil
+}
+
+// ShelfMultiError is an error wrapping multiple validation errors returned by
+// Shelf.ValidateAll() if the designated constraints aren't met.
+type ShelfMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ShelfMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ShelfMultiError) AllErrors() []error { return m }
+
+// ShelfValidationError is the validation error returned by Shelf.Validate if
+// the designated constraints aren't met.
+type ShelfValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ShelfValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ShelfValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ShelfValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ShelfValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ShelfValidationError) ErrorName() string { return "ShelfValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ShelfValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sShelf.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ShelfValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ShelfValidationError{}
+
+// Validate checks the field values on GetShelfRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *GetShelfRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetShelfRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetShelfRequestMultiError, or nil if none found.
+func (m *GetShelfRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetShelfRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	if len(errors) > 0 {
+		return GetShelfRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetShelfRequestMultiError is an error wrapping multiple validation errors
+// returned by GetShelfRequest.ValidateAll() if the designated constraints
+// aren't met.
+type GetShelfRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetShelfRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetShelfRequestMultiError) AllErrors() []error { return m }
+
+// GetShelfRequestValidationError is the validation error returned by
+// GetShelfRequest.Validate if the designated constraints aren't met.
+type GetShelfRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetShelfRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetShelfRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetShelfRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetShelfRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetShelfRequestValidationError) ErrorName() string { return "GetShelfRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GetShelfRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetShelfRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetShelfRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetShelfRequestValidationError{}
+
+// Validate checks the field values on GetShelfResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *GetShelfResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetShelfResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetShelfResponseMultiError, or nil if none found.
+func (m *GetShelfResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetShelfResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetShelf()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetShelfResponseValidationError{
+					field:  "Shelf",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetShelfResponseValidationError{
+					field:  "Shelf",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetShelf()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetShelfResponseValidationError{
+				field:  "Shelf",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetShelfResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetShelfResponseMultiError is an error wrapping multiple validation errors
+// returned by GetShelfResponse.ValidateAll() if the designated constraints
+// aren't met.
+type GetShelfResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetShelfResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetShelfResponseMultiError) AllErrors() []error { return m }
+
+// GetShelfResponseValidationError is the validation error returned by
+// GetShelfResponse.Validate if the designated constraints aren't met.
+type GetShelfResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetShelfResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetShelfResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetShelfResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetShelfResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetShelfResponseValidationError) ErrorName() string { return "GetShelfResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GetShelfResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetShelfResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetShelfResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetShelfResponseValidationError{}
+
 // Validate checks the field values on SayHelloRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.

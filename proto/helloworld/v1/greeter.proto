@@ -5,6 +5,7 @@ package helloworld.v1;
 import "buf/validate/validate.proto";
 import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
+import "google/api/resource.proto";
 
 option go_package = "github.com/tpl-x/kratos/api/helloworld/v1;v1";
 option java_multiple_files = true;
@@ -58,6 +59,46 @@ service GreeterService {
       description: "demo interface to search  keyword with redirect"
     };
   }
+
+  // Gets a shelf by its AIP resource name.
+  rpc GetShelf(GetShelfRequest) returns (GetShelfResponse) {
+    option (google.api.http) = {get: "/v1/{name=shelves/*}"};
+    option (gnostic.openapi.v3.operation) = {
+      operation_id: "get shelf"
+      summary:"get shelf api function"
+      description: "demo interface to get a shelf by its AIP resource name"
+    };
+  }
+}
+
+// Shelf demonstrates google.api.resource annotations for protoc-gen-go-aip.
+message Shelf {
+  option (google.api.resource) = {
+    type: "helloworld.googleapis.com/Shelf"
+    singular: "shelf"
+    plural: "shelves"
+    pattern: "shelves/{shelf}"
+  };
+
+  string name = 1 [
+    (buf.validate.field).string.min_len = 1,
+    (buf.validate.field).string.max_len = 128
+  ]; // the AIP resource name, for example shelves/default
+  string display_name = 2 [(buf.validate.field).string.max_len = 64]; // the shelf display name
+}
+
+// The request message containing the shelf resource name.
+message GetShelfRequest {
+  string name = 1 [
+    (buf.validate.field).string.min_len = 1,
+    (buf.validate.field).string.max_len = 128,
+    (buf.validate.field).string.pattern = "^shelves/[^/]+$"
+  ]; // the AIP resource name, for example shelves/default
+}
+
+// The response message containing the shelf.
+message GetShelfResponse {
+  Shelf shelf = 1; // the requested shelf
 }
 
 // The request message containing the user's name.
