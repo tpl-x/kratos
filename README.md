@@ -75,7 +75,8 @@ contains the generated `ShelfResourceName` helper. Run the service and request
 
 kratos
 ```bash
-go install github.com/go-kratos/kratos/cmd/kratos/v2@latest && kratos upgrade
+go install github.com/go-kratos/kratos/cmd/kratos/v3@latest
+kratos upgrade
 ```
 if you want to build all platform simply,you may need install [goreleaser](https://github.com/goreleaser/goreleaser),and build with
 ```bash
